@@ -22,6 +22,7 @@ import it.unisa.offerta_formativa.manager.TeachingManager;
 import it.unisa.offerta_formativa.moodle.manager.MoodleConnectionManager;
 import it.unisa.offerta_formativa.moodle.manager.MoodleCategoryManager;
 import it.unisa.offerta_formativa.moodle.manager.MoodleTeachingManager;
+import it.unisa.offerta_formativa.moodle.manager.MoodleUserManager;
 import it.unisa.offerta_formativa.moodle.moodle_rest.MoodleRestException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -105,6 +106,7 @@ public class InsertClassServlet extends HttpServlet {
                 mlist = modMng.getModulesByTeaching(matricula);
                 
                 //SETTINGS FOR MOODLE*******************************************
+                MoodleUserManager moodleUserMng = MoodleUserManager.getInstance(deptMng.getDepartmentByAbbreviation(department_abbreviation).getUrlMoodle(),deptMng.getDepartmentByAbbreviation(department_abbreviation).getToken());
                 MoodleCategoryManager moodleDegree = MoodleCategoryManager.getInstance(deptMng.getDepartmentByAbbreviation(department_abbreviation).getUrlMoodle(),deptMng.getDepartmentByAbbreviation(department_abbreviation).getToken());
                 MoodleTeachingManager moodleTeaching = MoodleTeachingManager.getInstance(deptMng.getDepartmentByAbbreviation(department_abbreviation).getUrlMoodle(),deptMng.getDepartmentByAbbreviation(department_abbreviation).getToken());
                 int idCat = moodleDegree.getIdCategoryByParent(cycleMng.getCycleByCycleNumber(degreeMng.readDegree(degree_matricula).getCycle()).getTitle(),
@@ -118,7 +120,9 @@ public class InsertClassServlet extends HttpServlet {
                 
                 Teaching teaching = teachingMng.readTeaching(matricula);
                 for(Module m : mlist){
-                    moodleTeaching.createTeaching(teaching.getAbbreviation()+classname, teaching.getTitle()+" -"+classname, idYearCat); //inserimento in moodle
+                    int coursid=moodleTeaching.createTeaching(teaching.getAbbreviation()+classname, teaching.getTitle()+" - "+classname, idYearCat); //inserimento in moodle
+                    int idprof = moodleUserMng.getIdByUsername(request.getParameter(m.getTitle()));
+                    moodleTeaching.assignTeacher(idprof, coursid);
                     pmcMng.create(new ProfModuleClass(request.getParameter("classname"),
                                                     matricula,
                                                     m.getTitle(),
