@@ -87,7 +87,6 @@ public class ModifyProfAssociationServlet extends HttpServlet {
                 }
                 request.setAttribute("profmoduleclass", map);
                 request.getRequestDispatcher(path+"listClassModule.jsp").forward(request, response);
-                request.getRequestDispatcher(path+"listClassModule.jsp").forward(request,response);
             }catch (SQLException ex) {
                 Logger.getLogger(ModifyProfAssociationServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ConnectionException ex) {

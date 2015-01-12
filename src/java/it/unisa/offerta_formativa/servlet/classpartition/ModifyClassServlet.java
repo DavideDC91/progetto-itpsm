@@ -89,6 +89,7 @@ public class ModifyClassServlet extends HttpServlet {
                     throw new ClassPartitionException("E' già presente una classe con questo nome.");
                 }
                 classMng.updateClass(new ClassPartition(request.getParameter("matricula"), request.getParameter("oldClassTitle")), new ClassPartition(request.getParameter("matricula"), request.getParameter("classTitle")));
+                pmcMng.updateClassTitle(request.getParameter("classTitle"), request.getParameter("oldClassTitle"), request.getParameter("matricula"));
                 request.setAttribute("matricula", request.getAttribute("matricula"));
                 request.setAttribute("successMessage", "Modifica della classe avvenuta con successo");
                 request.setAttribute("success", true);
@@ -130,7 +131,7 @@ public class ModifyClassServlet extends HttpServlet {
         if (request.getParameter("matricula").length() != 10) {
             return "La matricola deve essere di 10 caratteri.";
         }
-        if (request.getParameter("classTitle").length() > 2) {
+        if (request.getParameter("classTitle").length() < 2) {
             return "Il titolo della classe deve essere composto da almeno 2 caratteri.";
         }
         return "";

@@ -83,6 +83,7 @@ public class ModifyModuleServlet extends HttpServlet {
             if(request.getParameterMap().containsKey("matricula") && (request.getParameterMap().containsKey("oldModuleTitle"))){
                 try {
                     modMng.updateModule(new Module(request.getParameter("oldModuleTitle"),request.getParameter("matricula")), request.getParameter("moduleTitle"));
+                    pmcMng.updateModuleTitle(request.getParameter("moduleTitle"), request.getParameter("oldModuleTitle"), request.getParameter("matricula"));
                     request.setAttribute("matricula", request.getAttribute("matricula"));
                     request.setAttribute("successMessage", "Modifica del modulo avvenuta con successo");
                     request.setAttribute("success", true);

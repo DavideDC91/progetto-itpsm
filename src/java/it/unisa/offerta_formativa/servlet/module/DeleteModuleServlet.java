@@ -82,6 +82,7 @@ public class DeleteModuleServlet extends HttpServlet {
 
             if (request.getParameterMap().containsKey("matricula")) {
                 modMng.deleteModule(request.getParameter("title"), request.getParameter("matricula"));
+                pmcMng.deleteByModule(request.getParameter("title"), request.getParameter("matricula"));
                 request.setAttribute("matricula", request.getAttribute("matricula"));
                 request.setAttribute("successMessage", "Modifica del modulo avvenuta con successo");
                 request.setAttribute("success", true);

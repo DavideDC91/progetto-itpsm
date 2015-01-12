@@ -85,6 +85,7 @@ public class DeleteClassServlet extends HttpServlet {
             if (request.getParameterMap().containsKey("matricula") && request.getParameterMap().containsKey("title")) {
                 if(!checkFields(request).equalsIgnoreCase(""))throw new ClassPartitionException(checkFields(request));
                 classMng.deleteClass( request.getParameter("matricula"),request.getParameter("title"));
+                pmcMng.deleteByClass(request.getParameter("title"), request.getParameter("matricula"));
                 request.setAttribute("matricula", request.getAttribute("matricula"));
                 request.setAttribute("successMessage", "Eliminazione della classe avvenuta con successo");
                 request.setAttribute("success", true);

@@ -55,7 +55,7 @@ public class ShowModifyModuleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String path="/offertaFormativa/amministratore/moduleclass/";
+        String path="/offertaFormativa/amministratore/classmodule/";
         if(request.getParameterMap().containsKey("matricula") && request.getParameterMap().containsKey("moduleTitle")){
             try {
                 String matricula = request.getParameter("matricula");
